@@ -67,12 +67,12 @@ public class ExcelToCsvService {
 
         Iterator<Row> rowIterator = sheet.iterator();
         if (rowIterator.hasNext()) rowIterator.next(); // header
-        if (rowIterator.hasNext()) rowIterator.next(); // segunda fila (como tu Excel real)
+        if (rowIterator.hasNext()) rowIterator.next(); // segunda fila 
 
         while (rowIterator.hasNext()) {
             Row row = rowIterator.next();
 
-            // Validación fuerte (igual a tu Main original)
+            // Validación fuerte
             if (row.getCell(0) == null ||
                 row.getCell(1) == null ||
                 row.getCell(2) == null ||
@@ -91,7 +91,7 @@ public class ExcelToCsvService {
             String testScenario = getCellAsString(row.getCell(5));
             String testCaseNo = getCellAsString(row.getCell(7));
             String syntax = getCellAsString(row.getCell(9));
-            String testSteps = getCellAsString(row.getCell(10));
+            String testSteps = getCellAsString(row.getCell(10)).replace("\n", " ").replace("\r", " ");
             String testOutput = getCellAsString(row.getCell(11));
             String dataSheetName = getCellAsString(row.getCell(12));
 
@@ -105,7 +105,7 @@ public class ExcelToCsvService {
                 advertencias.append(feature)
                         .append(" ")
                         .append(testCaseNo)
-                        .append(" truncado a 255 caracteres.\n");
+                        .append("Truncated to 255 characters.\n");
                 testCaseName = testCaseName.substring(0, 254);
             }
 
