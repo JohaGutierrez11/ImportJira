@@ -92,8 +92,7 @@ Solución:
 ## 👤 Autor
 
 Johanna Gutiérrez
+
 Fecha de generación: 2025
 
 ---
-
-Si tienes inconvenientes al ejecutar la herramienta, verifica primero la versión de Java y asegúrate de estar usando el JAR correcto.
