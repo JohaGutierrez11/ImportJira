@@ -2,13 +2,13 @@ package com.montran;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.io.File;
 
 import java.util.List;
 import com.montran.model.TestSuite;
 import com.montran.service.ExcelSuiteReader;
 import com.montran.service.ExcelToCsvService;
+import org.apache.poi.openxml4j.util.ZipSecureFile;
 
 import java.util.ArrayList;
 import javax.swing.JCheckBox;
@@ -25,7 +25,7 @@ public class ExcelReaderApp extends JFrame {
 	private List<TestSuite> loadedSuites = new ArrayList<>();
 
 	public ExcelReaderApp() {
-		setTitle("Generador CSV desde Excel");
+		setTitle("CSV Generator from Excel");
 		setSize(700, 700);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -40,7 +40,7 @@ public class ExcelReaderApp extends JFrame {
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.anchor = GridBagConstraints.WEST;
-		mainPanel.add(new JLabel("Archivo Excel:"), gbc);
+		mainPanel.add(new JLabel("Excel File:"), gbc);
 
 		excelFileField = new JTextField(30);
 		gbc.gridx = 1;
@@ -49,7 +49,7 @@ public class ExcelReaderApp extends JFrame {
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		mainPanel.add(excelFileField, gbc);
 
-		openFileButton = new JButton("Abrir");
+		openFileButton = new JButton("Open");
 		gbc.gridx = 3;
 		gbc.gridy = 0;
 		gbc.gridwidth = 1;
@@ -59,7 +59,7 @@ public class ExcelReaderApp extends JFrame {
 		// Fila 1 - Nombre del Proyecto
 		gbc.gridx = 0;
 		gbc.gridy = 1;
-		mainPanel.add(new JLabel("Nombre del Proyecto:"), gbc);
+		mainPanel.add(new JLabel("Project Name:"), gbc);
 
 		projectNameField = new JTextField(30);
 		gbc.gridx = 1;
@@ -71,7 +71,7 @@ public class ExcelReaderApp extends JFrame {
 		// Fila 2 - Archivo CSV de salida
 		gbc.gridx = 0;
 		gbc.gridy = 2;
-		mainPanel.add(new JLabel("Archivo CSV de Salida:"), gbc);
+		mainPanel.add(new JLabel("Output CSV file:"), gbc);
 
 		outputCsvField = new JTextField(30);
 		gbc.gridx = 1;
@@ -83,8 +83,8 @@ public class ExcelReaderApp extends JFrame {
 		
 		JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
 
-		loadSuitesButton = new JButton("Cargar Test Suites");
-		generateCsvButton = new JButton("Generar CSV");
+		loadSuitesButton = new JButton("Load Test Suites");
+		generateCsvButton = new JButton("Generate CSV");
 
 		buttonsPanel.add(loadSuitesButton);
 		buttonsPanel.add(generateCsvButton);
@@ -131,7 +131,7 @@ public class ExcelReaderApp extends JFrame {
 
 	private void openFileDialog() {
 		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Archivos Excel", "xlsx"));
+		fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Excel File", "xlsx"));
 		int result = fileChooser.showOpenDialog(this);
 		if (result == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fileChooser.getSelectedFile();
@@ -144,7 +144,7 @@ public class ExcelReaderApp extends JFrame {
         String excelFilePath = excelFileField.getText();
 
         if (excelFilePath.isEmpty()) {
-            outputArea.setText("Seleccione primero un archivo Excel.");
+            outputArea.setText("¨Please select an Excel file .");
             return;
         }
 
@@ -165,10 +165,10 @@ public class ExcelReaderApp extends JFrame {
             suitesPanel.repaint();
 
             outputArea.setText(
-                    "Test Suites cargadas.\nSeleccione las que desea y luego presione 'Generar CSV'.");
+                    "Loading test suites.\nSelect the desired ones and then click 'Generate CSV.'");
 
         } catch (Exception e) {
-            outputArea.setText("Error al cargar las suites: " + e.getMessage());
+            outputArea.setText("Error loading test suites: " + e.getMessage());
         }
     }
 
@@ -179,12 +179,12 @@ public class ExcelReaderApp extends JFrame {
 		String outputCsv = outputCsvField.getText().trim();
 
 		if (excelFilePath.isEmpty() || projectName.isEmpty() || outputCsv.isEmpty()) {
-			outputArea.setText("Por favor complete todos los campos.");
+			outputArea.setText("Please complete all fields.");
 			return;
 		}
 
 		if (loadedSuites.isEmpty()) {
-			outputArea.setText("Primero debe cargar las Test Suites.");
+			outputArea.setText("You must load the Test Suites first.");
 			return;
 		}
 
@@ -198,14 +198,15 @@ public class ExcelReaderApp extends JFrame {
                     loadedSuites
             );
 
-            outputArea.setText("CSV generado correctamente.\n" + advertencia);
+            outputArea.setText("CSV generated successfully.\n" + advertencia);
 
         } catch (Exception e) {
-            outputArea.setText("Error al generar el CSV: " + e.getMessage());
+            outputArea.setText("Error generating CSV: " + e.getMessage());
         }
 	}
 
 	public static void main(String[] args) {
+		ZipSecureFile.setMinInflateRatio(0.0001);
 		SwingUtilities.invokeLater(() -> new ExcelReaderApp().setVisible(true));
 	}
 }
