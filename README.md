@@ -1,3 +1,9 @@
+# Antecedentes
+
+En los procesos de aseguramiento de la calidad, los casos de prueba suelen gestionarse mediante hojas de cálculo en formato Excel, utilizando lenguaje Gherkin para su posterior automatización. Sin embargo, el template utilizado para la definición de estos casos de prueba no es compatible directamente con el formato requerido por Jira para su carga e integración.
+
+Esta incompatibilidad genera reprocesos y errores manuales, lo que motiva el desarrollo de una aplicación orientada a la transformación automática de los templates de casos de prueba, permitiendo su adaptación al formato requerido por Jira de manera eficiente y controlada.
+
 # ExcelSuiteReader
 
 Herramienta Java para la lectura y procesamiento de archivos Excel, empaquetada como **fat JAR** para su ejecución directa sin dependencias externas.
